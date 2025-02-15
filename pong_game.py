@@ -1,4 +1,5 @@
 import turtle
+import time
 
 # Draw the screen
 screen = turtle.Screen()
@@ -95,5 +96,54 @@ def right_paddle_down ():
 left_score = 0
 right_score = 0
 
-# Keeps the window open after the program completes
-turtle.done ()
+# Keyboard bindings
+screen.listen ()
+screen.onkeypress (left_paddle_up, "w")
+screen.onkeypress (left_paddle_down, "s")
+screen.onkeypress (right_paddle_up, "Up")
+screen.onkeypress (right_paddle_down, "Down")
+
+
+
+# Main game loop
+while True:
+    screen.update ()
+    time.sleep (0.01)
+
+    # Moves the ball
+    ball.setx (ball.xcor () + ball.dx)
+    ball.sety (ball.ycor () + ball.dy)
+
+    # Checks for collision with the game board boundaries
+    if ball.ycor () > 280:
+        ball.sety (280)
+        ball.dy *= -1
+
+    if ball.ycor () < -280:
+        ball.sety (-280)
+        ball.dy *= -1
+
+    if ball.xcor () > 500:
+        ball.goto (0, 0)
+        ball.dy *= -1
+        left_score += 1
+        score.clear ()
+        score.write ("{} {}".format (left_score, right_score), align = "center", font = ("Courier", 50, "normal"))
+
+    if ball.xcor () < -500:
+        ball.goto (0, 0)
+        ball.dy *= -1
+        right_score += 1
+        score.clear ()
+        score.write ("{} {}".format (left_score, right_score), align = "center", font = ("Courier", 50, "normal"))
+
+    # Checks for collision with the paddles
+    if (ball.xcor () > 360 and ball.xcor () < 370) and \
+        (ball.ycor () < right_paddle.ycor () + 50 and ball.ycor () > right_paddle.ycor () - 50):
+        ball.setx (360)
+        ball.dx *= -1
+
+    if (ball.xcor () < -360 and ball.xcor () > -370) and \
+        (ball.ycor () < left_paddle.ycor () + 50 and ball.ycor () > left_paddle.ycor () - 50):
+        ball.setx (-360)
+        ball.dx *= -1
