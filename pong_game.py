@@ -5,7 +5,7 @@ screen = turtle.Screen()
 screen.setup (width = 800, height = 600)
 screen.title ("Pong")
 screen.bgcolor ("black")
-screen.tracer (0)
+screen.tracer (0) # Disables incremental screen updates
 
 # Create setup for center line
 center_line = turtle.Turtle ()
@@ -54,7 +54,46 @@ ball.goto (0, 0)
 ball.dx = 5
 ball.dy = -5
 
+# Displays the scores on the screen
+score = turtle.Turtle ()
+score.color ("white")
+score.speed (0)
+score.penup ()
+score.hideturtle ()
+score.goto (0, 200)
+score.write ("00 00", align = "center", font = ("Courier", 50, "normal"))
+
+# Updates the screen after drawing board objects
 screen.update ()
+
+# Functions to move pong paddles
+def left_paddle_up ():
+    y = left_paddle.ycor ()
+    if y < 250:
+        y += 20
+        left_paddle.sety (y)
+
+def left_paddle_down ():
+    y = left_paddle.ycor ()
+    if y > -240:
+        y -= 20
+        left_paddle.sety (y)
+
+def right_paddle_up ():
+    y = right_paddle.ycor ()
+    if y < 250:
+        y += 20
+        right_paddle.sety (y)
+
+def right_paddle_down ():
+    y = right_paddle.ycor ()
+    if y > -240:
+        y -= 20
+        right_paddle.sety (y)
+
+# Initialize the starting scores
+left_score = 0
+right_score = 0
 
 # Keeps the window open after the program completes
 turtle.done ()
