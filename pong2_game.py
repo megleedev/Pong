@@ -1,8 +1,8 @@
 import turtle
 import time
 
-import pong_start
-import pong_pause
+import pong2_start
+import pong2_pause
 
 def run_pong_game ():
     # Draw the screen
@@ -13,7 +13,7 @@ def run_pong_game ():
     screen.tracer (0) # Disables incremental screen updates
 
     # Binds the pause controls to the existing ame screen
-    pong_pause.pause_controls (screen)
+    pong2_pause.pause_controls (screen)
 
     # Create setup for center line
     center_line = turtle.Turtle ()
@@ -109,7 +109,7 @@ def run_pong_game ():
     screen.onkey (left_paddle_down, "s")
     screen.onkey (right_paddle_up, "Up")
     screen.onkey (right_paddle_down, "Down")
-    screen.onkey (pong_pause.on_p_pressed, "p")
+    screen.onkey (pong2_pause.on_p_pressed, "p")
 
 
     # Main game loop
@@ -118,7 +118,7 @@ def run_pong_game ():
         time.sleep (0.01)
 
         # Moves the ball if game not paused
-        if not pong_pause.game_paused:
+        if not pong2_pause.game_paused:
             ball.setx (ball.xcor () + ball.dx)
             ball.sety (ball.ycor () + ball.dy)
 
@@ -157,4 +157,4 @@ def run_pong_game ():
             ball.dx *= -1
 
 # Calls the start screen before starting the game
-pong_start.show_start_screen (run_pong_game)
+pong2_start.show_start_screen (run_pong_game)
