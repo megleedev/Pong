@@ -1,6 +1,8 @@
 import turtle
 import time
+
 import pong_start
+import pong_pause
 
 def run_pong_game ():
     # Draw the screen
@@ -9,6 +11,9 @@ def run_pong_game ():
     screen.title ("Pong")
     screen.bgcolor ("black")
     screen.tracer (0) # Disables incremental screen updates
+
+    # Binds the pause controls to the existing ame screen
+    pong_pause.pause_controls (screen)
 
     # Create setup for center line
     center_line = turtle.Turtle ()
@@ -100,11 +105,11 @@ def run_pong_game ():
 
     # Keyboard bindings
     screen.listen ()
-    screen.onkeypress (left_paddle_up, "w")
-    screen.onkeypress (left_paddle_down, "s")
-    screen.onkeypress (right_paddle_up, "Up")
-    screen.onkeypress (right_paddle_down, "Down")
-
+    screen.onkey (left_paddle_up, "w")
+    screen.onkey (left_paddle_down, "s")
+    screen.onkey (right_paddle_up, "Up")
+    screen.onkey (right_paddle_down, "Down")
+    screen.onkey (pong_pause.on_p_pressed, "p")
 
 
     # Main game loop
@@ -112,9 +117,10 @@ def run_pong_game ():
         screen.update ()
         time.sleep (0.01)
 
-        # Moves the ball
-        ball.setx (ball.xcor () + ball.dx)
-        ball.sety (ball.ycor () + ball.dy)
+        # Moves the ball if game not paused
+        if not pong_pause.game_paused:
+            ball.setx (ball.xcor () + ball.dx)
+            ball.sety (ball.ycor () + ball.dy)
 
         # Checks for collision with the game board boundaries
         if ball.ycor () > 280:
